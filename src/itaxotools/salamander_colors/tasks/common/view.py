@@ -86,6 +86,7 @@ class PathSelector(Card):
 
     def draw_main(self, text, direction):
         label = IOLabel(text, direction)
+        label.setMinimumWidth(100)
 
         field = ElidedLineEdit()
         field.textDeleted.connect(self._handle_text_deleted)

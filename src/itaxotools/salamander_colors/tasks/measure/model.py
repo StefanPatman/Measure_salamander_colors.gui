@@ -24,7 +24,7 @@ class Model(SalamanderTaskModel):
         self.binder.bind(
             self.properties.input_path,
             self.properties.output_path,
-            lambda p: p.parent / "Salamander_color_results.tsv" if p != Path() else Path(),
+            lambda p: p / "Salamander_color_results.tsv" if p != Path() else Path(),
         )
 
         self.subtask_init = SubtaskModel(self, bind_busy=False)

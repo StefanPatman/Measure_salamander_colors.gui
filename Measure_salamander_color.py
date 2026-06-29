@@ -1,3 +1,5 @@
+# The original script is preserved here but is not used by the GUI
+
 import argparse
 import os
 from PIL import Image
@@ -43,7 +45,7 @@ def measure_color(picture, min_background, max_black):
         else:
           other += 1
 
-# Calculate percents and proportions 
+# Calculate percents and proportions
   total = black + yellow
   black_percent = round(float(black)*100/float(total), 2)
   yellow_percent = round(float(yellow)*100/float(total), 2)

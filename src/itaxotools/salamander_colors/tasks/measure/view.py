@@ -6,6 +6,7 @@ from itaxotools.common.utility import AttrDict
 from itaxotools.taxi_gui import app
 from itaxotools.taxi_gui.tasks.common.view import ProgressCard
 from itaxotools.taxi_gui.view.cards import Card
+from itaxotools.taxi_gui.view.widgets import GSpinBox
 
 from ..common.view import (
     GraphicTitleCard,
@@ -13,7 +14,7 @@ from ..common.view import (
     PathFileOutSelector,
     SalamanderTaskView,
 )
-from ..common.widgets import IntPropertyLineEdit, PropertyLineEdit
+from ..common.widgets import PropertyLineEdit
 from . import long_description, pixmap_medium, title
 
 
@@ -21,20 +22,9 @@ class OptionsCard(Card):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        label = QtWidgets.QLabel("Options:")
-        label.setStyleSheet("font-size: 16px;")
-        label.setMinimumWidth(150)
-
-        description = QtWidgets.QLabel("Pixel classification thresholds and image file extension.")
-
-        title_layout = QtWidgets.QHBoxLayout()
-        title_layout.addWidget(label)
-        title_layout.addWidget(description, 1)
-        title_layout.setSpacing(16)
-
         grid = QtWidgets.QGridLayout()
         grid.setColumnMinimumWidth(0, 16)
-        grid.setColumnMinimumWidth(1, 160)
+        grid.setColumnMinimumWidth(1, 16)
         grid.setColumnStretch(3, 1)
         grid.setHorizontalSpacing(32)
         grid.setVerticalSpacing(8)
@@ -51,22 +41,27 @@ class OptionsCard(Card):
         row += 1
 
         grid.addWidget(QtWidgets.QLabel("Background:"), row, 1)
-        background_field = IntPropertyLineEdit()
+        background_field = GSpinBox()
         background_field.setFixedWidth(100)
+        background_field.setMinimum(0)
+        background_field.setMaximum(256)
+        background_field.setSingleStep(10)
         grid.addWidget(background_field, row, 2)
         grid.addWidget(QtWidgets.QLabel("Minimum R, G, B value for a pixel to be classified as background"), row, 3)
         self.controls.background_threshold = background_field
         row += 1
 
         grid.addWidget(QtWidgets.QLabel("Black:"), row, 1)
-        black_field = IntPropertyLineEdit()
+        black_field = GSpinBox()
         black_field.setFixedWidth(100)
+        black_field.setMinimum(0)
+        black_field.setMaximum(256)
+        black_field.setSingleStep(10)
         grid.addWidget(black_field, row, 2)
         grid.addWidget(QtWidgets.QLabel("Maximum R, G, B value for a pixel to be classified as black"), row, 3)
         self.controls.black_threshold = black_field
         row += 1
 
-        self.addLayout(title_layout)
         self.addLayout(grid)
 
 
@@ -111,8 +106,12 @@ class View(SalamanderTaskView):
         self.binder.bind(self.cards.output.selectedPath, object.properties.output_path)
 
         self.cards.options.controls.extension.bind_property(object.properties.extension)
-        self.cards.options.controls.background_threshold.bind_property(object.properties.background_threshold)
-        self.cards.options.controls.black_threshold.bind_property(object.properties.black_threshold)
+
+        self.binder.bind(object.properties.background_threshold, self.cards.options.controls.background_threshold.setValue)
+        self.binder.bind(self.cards.options.controls.background_threshold.valueChangedSafe, object.properties.background_threshold)
+
+        self.binder.bind(object.properties.black_threshold, self.cards.options.controls.black_threshold.setValue)
+        self.binder.bind(self.cards.options.controls.black_threshold.valueChangedSafe, object.properties.black_threshold)
 
         self.binder.bind(object.properties.editable, self.setEditable)
 
