@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "itaxotools-salamander-colors"
+dynamic = ["version"]
+description = "Measure black and yellow pixel proportions in salamander images"
+readme = "README.md"
+requires-python = ">=3.10.2, <4"
+keywords = []
+authors = [
+    { name = "Stefanos Patmanidis", email = "stefanpatman91@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+dependencies = [
+    "itaxotools-common",
+    "itaxotools-taxi-gui",
+    "pyside6",
+    "pillow",
+]
+
+[project.optional-dependencies]
+dev = [
+    "setuptools-scm",
+    "pre-commit",
+    "ruff",
+    "pytest",
+    "pytest-qt",
+    "pyinstaller",
+]
+
+[project.scripts]
+salamander-colors = "itaxotools.salamander_colors:run"
+
+[project.urls]
+Homepage = "https://itaxotools.org/"
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["src"]
+
+[tool.setuptools_scm]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.ruff]
+ignore-init-module-imports = true
+extend-select = ["I"]
+line-length = 120
+ignore = ["E731"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["itaxotools"]
+section-order = [
+    "future",
+    "pyqt",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+[tool.ruff.lint.isort.sections]
+pyqt = ["PySide6"]
+
+[tool.ruff.format]
+exclude = ["tests/*"]
