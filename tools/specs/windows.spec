@@ -21,7 +21,6 @@ a = Analysis([SCRIPT],
              runtime_hooks=[],
              excludes=[
                 'matplotlib',
-                'PIL',
                 'pandas',
             ],
              win_no_prefer_redirects=False,
