@@ -1,0 +1,4 @@
+Sample	Background_pixels	Total_pixels	Black_pixels	Black_percent	Yellow_pixels	Yellow_percent	Ratio	Other_pixels
+sal25	207248	19388	13686	70.59	5702	29.41	2.4	3308
+sal50	204751	20337	8397	41.29	11940	58.71	0.7	4856
+sal75	206780	18672	2557	13.69	16115	86.31	0.16	4492
